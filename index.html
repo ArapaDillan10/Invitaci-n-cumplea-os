@@ -10,7 +10,7 @@
 
     <div class="invitacion-tarjeta">
         
-        <div class="borde-decorativo"> ═════════ • ═════════ </div>
+        <div class="borde-decorativo">⚽ Mis 50 ⚽</div>
 
         <div class="header-cumple">
             <h1 class="nombre-elegante">Adolfo</h1>
@@ -37,6 +37,11 @@
         <div class="seccion-formulario">
             <h3>Confirmar asistencia</h3>
             
+            <!-- Agregamos este div para mostrar el cartel si ya pasó la fecha límite -->
+            <div id="mensajeLimite" style="display: none; background-color: #ffe6e6; color: #cc0000; padding: 10px; border: 1px solid #ffcccc; border-radius: 5px; font-weight: bold; text-align: center; margin-bottom: 15px;">
+                La fecha límite para confirmar asistencia fue el 9 de Julio de 2026. Ya no se aceptan registros.
+            </div>
+            
             <form id="formInvitado1" action="https://api.sheetmonkey.io/form/txfvzBNHGs3xpoTEChcCyZ" method="POST" class="control-invitado">
                 <input type="hidden" id="excelNombre1" name="Nombre">
                 <input type="hidden" id="excelAsistencia1" name="Asistencia">
@@ -62,13 +67,44 @@
 
         <div class="footer-cumple">
             <p class="mensaje-espera">¡Te esperamos!</p>
-            <div class="borde-decorativo"> ═════════ • ═════════ </div>
+            <div class="borde-decorativo">⚽ Mis 50 ⚽</div>
         </div>
 
     </div>
 
     <script>
+        // Esta función corre sola apenas se abre la página para verificar el límite
+        document.addEventListener("DOMContentLoaded", function() {
+            const fechaLimite = new Date(2026, 6, 2, 16, 30, 0);
+            const fechaActual = new Date();
+
+            if (fechaActual > fechaLimite) {
+                // Mostramos el mensaje de cierre
+                document.getElementById("mensajeLimite").style.display = "block";
+                
+                // Deshabilitamos las cajas de texto
+                document.getElementById("invitado1").disabled = true;
+                document.getElementById("invitado2").disabled = true;
+                
+                // Buscamos todos los botones y los desactivamos
+                const botones = document.querySelectorAll(".grupo-botones button");
+                botones.forEach(btn => {
+                    btn.disabled = true;
+                    btn.style.backgroundColor = "#cccccc";
+                    btn.style.color = "#666666";
+                    btn.style.cursor = "not-allowed";
+                });
+            }
+        });
+
         function enviarRespuesta(numeroInvitado, estado) {
+            // Validación extra por seguridad si intentan clickear botones bloqueados
+            const fechaLimite = new Date(2026, 6, 2, 16, 30, 0);
+            if (new Date() > fechaLimite) {
+                alert("El período de confirmación ha vencido.");
+                return;
+            }
+
             const inputVisual = document.getElementById(`invitado${numeroInvitado}`);
             const nombre = inputVisual.value.trim();
             
