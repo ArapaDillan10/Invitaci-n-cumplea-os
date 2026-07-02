@@ -37,9 +37,9 @@
         <div class="seccion-formulario">
             <h3>Confirmar asistencia</h3>
             
-            <!-- Agregamos este div para mostrar el cartel si ya pasó la fecha límite -->
-            <div id="mensajeLimite" style="display: none; background-color: #ffe6e6; color: #cc0000; padding: 10px; border: 1px solid #ffcccc; border-radius: 5px; font-weight: bold; text-align: center; margin-bottom: 15px;">
-                La fecha límite para confirmar asistencia fue el 9 de Julio de 2026. Ya no se aceptan registros.
+            <!-- Cartel de aviso controlado 100% por clases CSS -->
+            <div id="mensajeLimite" class="cartel-aviso">
+                Recordatorio: Tenés tiempo para confirmar tu asistencia hasta el 9 de Julio de 2026.
             </div>
             
             <form id="formInvitado1" action="https://api.sheetmonkey.io/form/txfvzBNHGs3xpoTEChcCyZ" method="POST" class="control-invitado">
@@ -73,33 +73,33 @@
     </div>
 
     <script>
-        // Esta función corre sola apenas se abre la página para verificar el límite
         document.addEventListener("DOMContentLoaded", function() {
-            const fechaLimite = new Date(2026, 6, 2, 16, 30, 0);
+            const fechaLimite = new Date(2026, 6, 9, 23, 59, 59); // 9 de Julio de 2026
             const fechaActual = new Date();
 
             if (fechaActual > fechaLimite) {
-                // Mostramos el mensaje de cierre
-                document.getElementById("mensajeLimite").style.display = "block";
+                const cartel = document.getElementById("mensajeLimite");
                 
-                // Deshabilitamos las cajas de texto
+                // Intercambio de clases CSS puro
+                cartel.classList.remove("cartel-aviso");
+                cartel.classList.add("cartel-expirado");
+                cartel.innerText = "La fecha límite para confirmar asistencia fue el 9 de Julio de 2026. Ya no se aceptan registros.";
+                
+                // Deshabilitamos los inputs
                 document.getElementById("invitado1").disabled = true;
                 document.getElementById("invitado2").disabled = true;
                 
-                // Buscamos todos los botones y los desactivamos
+                // Desactivamos los botones agregando la clase CSS de bloqueo
                 const botones = document.querySelectorAll(".grupo-botones button");
                 botones.forEach(btn => {
                     btn.disabled = true;
-                    btn.style.backgroundColor = "#cccccc";
-                    btn.style.color = "#666666";
-                    btn.style.cursor = "not-allowed";
+                    btn.classList.add("btn-deshabilitado");
                 });
             }
         });
 
         function enviarRespuesta(numeroInvitado, estado) {
-            // Validación extra por seguridad si intentan clickear botones bloqueados
-            const fechaLimite = new Date(2026, 6, 2, 16, 30, 0);
+            const fechaLimite = new Date(2026, 6, 9, 23, 59, 59);
             if (new Date() > fechaLimite) {
                 alert("El período de confirmación ha vencido.");
                 return;
@@ -113,14 +113,11 @@
                 return;
             }
 
-            // 1. Asignamos los valores reales a los inputs ocultos que Sheet Monkey va a leer
             document.getElementById(`excelNombre${numeroInvitado}`).value = nombre;
             document.getElementById(`excelAsistencia${numeroInvitado}`).value = estado;
 
-            // 2. Avisamos al usuario que se está procesando
-            alert(`¡Gracias! Registraras a: ${nombre} como [${estado}]. Presioná Aceptar para confirmar.`);
+            alert(`¡Gracias! Registrarás a: ${nombre} como [${estado}]. Presioná Aceptar para confirmar.`);
 
-            // 3. Enviamos el formulario correspondiente al Excel de forma automática
             document.getElementById(`formInvitado${numeroInvitado}`).submit();
         }
     </script>
