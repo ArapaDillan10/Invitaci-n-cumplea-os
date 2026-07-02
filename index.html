@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitación de Cumpleaños - Adolfo 50 Años</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="invitacion-tarjeta">
+        
+        <div class="borde-decorativo"> ═════════ • ═════════ </div>
+
+        <div class="header-cumple">
+            <h1 class="nombre-elegante">Adolfo</h1>
+            <div class="edad-contenedor">
+                <span class="anos-texto">Mis</span>
+                <span class="numero-edad">50</span>
+                <span class="anos-texto">años</span>
+            </div>
+        </div>
+
+        <div class="detalles-evento">
+            <p class="frase-emotiva">
+                LA VIDA NO SE CUENTA POR LOS AÑOS, SINO POR LAS HISTORIAS QUE COMPARTIMOS. 
+                TE ESPERO PARA ESCRIBIR UN CAPÍTULO MÁS
+            </p>
+            
+            <div class="info-bloque">
+                <p class="fecha">18 de Julio de 2026</p>
+                <p class="hora">20:30 Hs</p>
+                <p class="lugar">Club Norte Calchaquí - La Poma</p>
+            </div>
+        </div>
+
+        <div class="seccion-formulario">
+            <h3>Confirmar asistencia</h3>
+            
+            <form id="formInvitado1" action="https://api.sheetmonkey.io/form/txfvzBNHGs3xpoTEChcCyZ" method="POST" class="control-invitado">
+                <input type="hidden" id="excelNombre1" name="Nombre">
+                <input type="hidden" id="excelAsistencia1" name="Asistencia">
+
+                <input type="text" id="invitado1" placeholder="Nombre completo Invitado 1" class="input-nombre" required>
+                <div class="grupo-botones">
+                    <button type="button" class="btn btn-si" onclick="enviarRespuesta(1, 'SÍ ASISTIRÉ')">Asistiré</button>
+                    <button type="button" class="btn btn-no" onclick="enviarRespuesta(1, 'NO PODRÉ ASISTIR')">No Podré Asistir</button>
+                </div>
+            </form>
+
+            <form id="formInvitado2" action="https://api.sheetmonkey.io/form/txfvzBNHGs3xpoTEChcCyZ" method="POST" class="control-invitado">
+                <input type="hidden" id="excelNombre2" name="Nombre">
+                <input type="hidden" id="excelAsistencia2" name="Asistencia">
+
+                <input type="text" id="invitado2" placeholder="Nombre completo Invitado 2" class="input-nombre">
+                <div class="grupo-botones">
+                    <button type="button" class="btn btn-si" onclick="enviarRespuesta(2, 'SÍ ASISTIRÉ')">Asistiré</button>
+                    <button type="button" class="btn btn-no" onclick="enviarRespuesta(2, 'NO PODRÉ ASISTIR')">No Podré Asistir</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="footer-cumple">
+            <p class="mensaje-espera">¡Te esperamos!</p>
+            <div class="borde-decorativo"> ═════════ • ═════════ </div>
+        </div>
+
+    </div>
+
+    <script>
+        function enviarRespuesta(numeroInvitado, estado) {
+            const inputVisual = document.getElementById(`invitado${numeroInvitado}`);
+            const nombre = inputVisual.value.trim();
+            
+            if (nombre === "") {
+                alert(`Por favor, escribí el nombre del Invitado ${numeroInvitado} antes de responder.`);
+                return;
+            }
+
+            // 1. Asignamos los valores reales a los inputs ocultos que Sheet Monkey va a leer
+            document.getElementById(`excelNombre${numeroInvitado}`).value = nombre;
+            document.getElementById(`excelAsistencia${numeroInvitado}`).value = estado;
+
+            // 2. Avisamos al usuario que se está procesando
+            alert(`¡Gracias! Registraras a: ${nombre} como [${estado}]. Presioná Aceptar para confirmar.`);
+
+            // 3. Enviamos el formulario correspondiente al Excel de forma automática
+            document.getElementById(`formInvitado${numeroInvitado}`).submit();
+        }
+    </script>
+
+</body>
+</html>
