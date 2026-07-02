@@ -74,7 +74,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const fechaLimite = new Date(2026, 6, 2, 16, 45, 0); // 9 de Julio de 2026
+            const fechaLimite = new Date(2026, 6, 2, 16, 40, 0); // 9 de Julio de 2026
             const fechaActual = new Date();
 
             if (fechaActual > fechaLimite) {
@@ -99,7 +99,7 @@
         });
 
         function enviarRespuesta(numeroInvitado, estado) {
-            const fechaLimite = new Date(2026, 6, 2, 16, 45, 0);
+            const fechaLimite = new Date(2026, 6, 2, 16, 40, 0);
             if (new Date() > fechaLimite) {
                 alert("El período de confirmación ha vencido.");
                 return;
