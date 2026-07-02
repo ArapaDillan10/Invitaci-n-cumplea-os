@@ -39,7 +39,7 @@
             
             <!-- Cartel de aviso controlado 100% por clases CSS -->
             <div id="mensajeLimite" class="cartel-aviso">
-                Recordatorio: Tenés tiempo para confirmar tu asistencia hasta el 9 de Julio de 2026.
+                Recordatorio: Tenés tiempo para confirmar tu asistencia hasta el 8 de Julio de 2026.
             </div>
             
             <form id="formInvitado1" action="https://api.sheetmonkey.io/form/txfvzBNHGs3xpoTEChcCyZ" method="POST" class="control-invitado">
@@ -74,7 +74,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const fechaLimite = new Date(2026, 6, 2, 16, 40, 0); // 9 de Julio de 2026
+            const fechaLimite = new Date(2026, 6, 8, 23, 59, 59); // 8 de Julio de 2026
             const fechaActual = new Date();
 
             if (fechaActual > fechaLimite) {
@@ -99,7 +99,7 @@
         });
 
         function enviarRespuesta(numeroInvitado, estado) {
-            const fechaLimite = new Date(2026, 6, 2, 16, 40, 0);
+            const fechaLimite = new Date(2026, 6, 8, 23, 59, 59);
             if (new Date() > fechaLimite) {
                 alert("El período de confirmación ha vencido.");
                 return;
